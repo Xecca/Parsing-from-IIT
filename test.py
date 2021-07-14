@@ -27,22 +27,21 @@ print( "Уррра! Я вошел в: {}\n ".format(
     answ_bs.select(".page-header-headings")[0].text.strip()
 ) )
 
-# get my grade
+# get my grade from grade book
 grade_html = s.get("https://eu.iit.csu.ru/grade/report/overview/index.php")
 grade_bs = BS(grade_html.content, "html.parser")
 
-courses = {}
+courses = {}    # save parsed data here
 
-index = 0
 # string = ("#grade-report-overview-5907_r{}".format(index))
 studentName = grade_bs.select("#page-header > div > div > div > div.d-sm-flex.align-items-center > div.mr-auto > div > div.page-header-headings > h1")[0].text.strip()
-nameOfCourse = grade_bs.select(("#grade-report-overview-5907_r{}".format(index)))[0].text.strip()
 
 print("Имя студента: {}\n".format(
     studentName
 ))
 
-# while grade_bs.select("#grade-report-overview-5907_r{}".format(index))[0]:
+index = 0
+
 for course in grade_bs.select("tbody > tr"):
     string = ('#grade-report-overview-5907_r{}_c0'.format(index))
     courseTitle = (course.select(str(string + ' > a')))[0].text
@@ -50,10 +49,6 @@ for course in grade_bs.select("tbody > tr"):
     print(courseTitle + '\t' + courseGrade)
     courses[courseTitle] = courseGrade
     index += 1
-
     print(" ------------------------------------------------------- ")
 
-
-# print(nameOfCourse)
-
-print(courses)
+# print(courses)
